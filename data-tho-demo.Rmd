@@ -1,0 +1,40 @@
+---
+title: "Shirts - Demo"
+author: "Nathan Weldon"
+date: '2022-09-09'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+## Background
+
+The Hidden Opponent (THO) is a national nonprofit mental health organization for student athletes in collegiate sports, and I am part of THO's chapter at Shippensburg University. Recently, we sold shirts to members of the club for 15$ each and documented each individual's purchase of the color and size of the shirt, as well as names and if they paid for their order. Here is the original table and the cleaned dataset
+
+```{r echo = FALSE, message = FALSE}
+data <- read_csv('Book1.csv')
+
+#clean data
+cleandata <- data %>% 
+  mutate('name' = str_to_title(`Athlete Name`)) %>%
+  mutate('color' = tolower(`Color`)) %>%
+  mutate('size' = toupper(`Size`)) %>% 
+  mutate('paid' = tolower(`Paid (Y/N)`) %>% 
+           str_sub(start = 1, end = 1)) %>% 
+  mutate('shirts' = case_when(
+    color == 'black'~ 1,
+    color == 'white'~ 1,
+    color == 'green'~ 1,
+    color == 'all' ~ 3
+  )) %>% 
+  select(name, color, size, paid, shirts)
+data
+cleandata
+
+```
+
+
+
+
